@@ -1,0 +1,23 @@
+#include <cstdio>
+#include <stack>
+#define MAX_SIZE 3000005
+using namespace std;
+int num[MAX_SIZE], ans[MAX_SIZE];										   //大型数组容易造成栈溢出，应放在全局变量作用域或者创建堆来存放
+int main()
+{
+	int n;
+	stack<int> s;
+	scanf_s("%d", &n);
+	for (int i = 1; i <= n; i++)
+		scanf_s("%d", &num[i]);
+	for (int i = n; i > 0; i--)
+	{
+		while (!s.empty() && num[s.top()] <= num[i]) s.pop();               //如果栈非空且当前元素大于栈顶元素，就弹栈，注意不要弹空栈
+		if (s.empty()) ans[i] = 0;											//如果栈空，则赋值为0
+		else ans[i] = s.top();												//非空，赋值为栈顶元素
+		s.push(i);															//将元素的下标压入栈中
+	}
+	for (int i = 1; i < n; i++)
+		printf("%d ", ans[i]);
+	return 0;
+}
